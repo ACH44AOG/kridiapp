@@ -468,12 +468,9 @@
 </footer>
 
 <script>
-/* ============================================================
-   إعدادات مشروع SUPABASE
-   استبدل المفاتيح التالية ببيانات مشروعك في Supabase
-   ============================================================ */
-const SUPABASE_URL = "https://YOUR-PROJECT-REF.supabase.co";
-const SUPABASE_ANON_KEY = "YOUR-ANON-PUBLIC-KEY";
+
+const SUPABASE_URL = "https://syfvpsymoapdklddjocw.supabase.co";
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN5ZnZwc3ltb2FwZGtsZGRqb2N3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODYzNTk3NjEsImV4cCI6MjEwMTkzNTc2MX0.hXUYSmXeMCltnwebvZt4KCU_8SAp9tzDkoYWRb5PuIo";
 
 const codeInput   = document.getElementById('codeInput');
 const redeemBtn    = document.getElementById('redeemBtn');
@@ -499,7 +496,6 @@ async function redeemCode(){
   setStatus('', '');
 
   try {
-    // استدعاء دالة الـ RPC الفعالة داخل Supabase
     const res = await fetch(`${SUPABASE_URL}/rest/v1/rpc/redeem_code`, {
       method: 'POST',
       headers: {
@@ -518,17 +514,14 @@ async function redeemCode(){
     if(result && result.success === true){
       setStatus('تم التفعيل بنجاح — سيتم التنزيل المباشر فوراً', 'ok');
       
-      // إسناد رابط التحميل
       downloadLink.href = result.download_url;
       downloadCta.classList.add('show');
       
-      // تحديث زر الواتساب بالرقم الآمن المجلوب من القاعدة
       if(result.whatsapp_num) {
         const waUrl = `https://wa.me/${result.whatsapp_num}?text=${encodeURIComponent('مرحباً، أرغب في الحصول على رمز تفعيل جديد لتطبيق كريدي.')}`;
         document.querySelectorAll('#whatsappStepBtn, #whatsappPanelBtn').forEach(btn => btn.href = waUrl);
       }
 
-      // إطلاق التحميل المباشر آلياً
       window.location.href = result.download_url;
 
       codeInput.disabled = true;
@@ -552,9 +545,7 @@ document.querySelectorAll('.faq-item').forEach(item => {
 });
 document.getElementById('year').textContent = new Date().getFullYear();
 
-/* ============================================================
-   حماية منع فتح أدوات التطوير (Inspect Element)
-   ============================================================ */
+
 const shield = document.getElementById('shield');
 let shieldActive = false;
 function triggerShield(){
