@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>كريدي — منصة إدارة الديون التجارية</title>
+<meta name="description" content="نظام إدارة الديون والزبناء للمحلات التجارية، يعمل كلياً بدون إنترنت.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d0f12;
+    --surface: #14181f;
+    --surface-card: #1a1f28;
+    --border: #262c38;
+    --gold: #c6a15a;
+    --gold-hover: #b08d48;
+    --text: #ededed;
+    --text-muted: #8c94a4;
+    --green: #2e9e6d;
+    --red: #c0392b;
+    --radius: 12px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Cairo', sans-serif;
+    background-color: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a { color: inherit; text-decoration: none; }
+  .container { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+
+  /* ---------- Header ---------- */
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(13, 15, 18, 0.95);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 70px;
+  }
+  .brand {
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .brand-dot {
+    width: 8px;
+    height: 8px;
+    background: var(--gold);
+    border-radius: 50%;
+  }
+  .nav-cta {
+    padding: 9px 20px;
+    border-radius: var(--radius);
+    background: var(--gold);
+    color: #0d0f12;
+    font-weight: 700;
+    font-size: 14px;
+    transition: background 0.2s;
+  }
+  .nav-cta:hover { background: var(--gold-hover); }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    padding: 80px 0 60px;
+    text-align: center;
+  }
+  .hero-tag {
+    display: inline-block;
+    padding: 6px 16px;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    color: var(--gold);
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 24px;
+    background: var(--surface);
+  }
+  h1 {
+    font-size: clamp(28px, 4.5vw, 50px);
+    font-weight: 800;
+    line-height: 1.35;
+    max-width: 800px;
+    margin: 0 auto 20px;
+  }
+  h1 span { color: var(--gold); }
+  .hero p {
+    max-width: 580px;
+    margin: 0 auto 36px;
+    font-size: 16px;
+    color: var(--text-muted);
+  }
+  .hero-actions {
+    display: flex;
+    gap: 14px;
+    justify-content: center;
+    margin-bottom: 50px;
+  }
+  .btn {
+    padding: 13px 28px;
+    border-radius: var(--radius);
+    font-weight: 700;
+    font-size: 14.5px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s;
+  }
+  .btn-primary { background: var(--gold); color: #0d0f12; }
+  .btn-primary:hover { background: var(--gold-hover); }
+  .btn-ghost { background: var(--surface); color: var(--text); border: 1px solid var(--border); }
+  .btn-ghost:hover { border-color: var(--gold); color: var(--gold); }
+
+  /* ---------- Preview Display ---------- */
+  .preview-card {
+    max-width: 720px;
+    margin: 0 auto;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 28px;
+    text-align: right;
+  }
+  .preview-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 16px;
+    margin-bottom: 18px;
+  }
+  .preview-title { font-size: 15px; font-weight: 700; color: var(--text); }
+  .preview-status { font-size: 12.5px; color: var(--green); font-weight: 600; }
+  .preview-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+  .preview-box {
+    background: var(--surface-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+  }
+  .preview-box span { display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 4px; }
+  .preview-box strong { font-size: 18px; color: var(--text); }
+  .preview-box strong.red { color: var(--red); }
+
+  /* ---------- Sections ---------- */
+  section { padding: 70px 0; }
+  .section-head { text-align: center; max-width: 600px; margin: 0 auto 46px; }
+  .section-tag { color: var(--gold); font-weight: 700; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .section-head h2 { font-size: clamp(22px, 3vw, 32px); font-weight: 800; margin-top: 8px; }
+  .section-head p { color: var(--text-muted); margin-top: 10px; font-size: 15px; }
+
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 26px 22px;
+    transition: border-color 0.2s;
+  }
+  .card:hover { border-color: var(--gold); }
+  .card h3 { font-size: 16px; font-weight: 700; margin-bottom: 8px; color: var(--text); }
+  .card p { color: var(--text-muted); font-size: 13.5px; line-height: 1.6; }
+
+  /* ---------- Steps ---------- */
+  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .step {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 26px 22px;
+  }
+  .step-index {
+    font-size: 13px;
+    font-weight: 800;
+    color: var(--gold);
+    margin-bottom: 10px;
+  }
+  .step h3 { font-size: 15.5px; font-weight: 700; margin-bottom: 8px; }
+  .step p { color: var(--text-muted); font-size: 13.5px; }
+
+  /* ---------- Download Section ---------- */
+  .download-panel {
+    max-width: 500px;
+    margin: 0 auto;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 32px 24px;
+  }
+  .download-panel h3 { font-size: 19px; font-weight: 700; margin-bottom: 8px; text-align: center; }
+  .download-panel > p { color: var(--text-muted); font-size: 13.5px; text-align: center; margin-bottom: 22px; }
+  
+  .code-input-row { display: flex; gap: 10px; margin-bottom: 12px; }
+  .code-input-row input {
+    flex: 1;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 12px 14px;
+    color: var(--text);
+    font-family: 'Cairo', sans-serif;
+    font-size: 14.5px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .code-input-row input:focus { border-color: var(--gold); }
+  .code-input-row button {
+    padding: 0 20px;
+    border-radius: var(--radius);
+    border: none;
+    background: var(--gold);
+    color: #0d0f12;
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .code-input-row button:hover { background: var(--gold-hover); }
+  .code-input-row button:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  .status-msg { font-size: 13px; text-align: center; min-height: 20px; margin-bottom: 10px; font-weight: 600; }
+  .status-msg.err { color: var(--red); }
+  .status-msg.ok { color: var(--green); }
+
+  .download-cta { display: none; margin-top: 16px; text-align: center; flex-direction: column; gap: 10px; }
+  .download-cta.show { display: flex; }
+  .download-cta a {
+    display: block;
+    padding: 13px;
+    border-radius: var(--radius);
+    background: var(--gold);
+    color: #0d0f12;
+    font-weight: 700;
+    font-size: 14.5px;
+  }
+  .download-note { font-size: 12px; color: var(--text-muted); text-align: center; }
+  .locked-note { color: var(--text-muted); font-size: 12px; text-align: center; margin-top: 16px; }
+
+  /* ---------- FAQ ---------- */
+  .faq { max-width: 720px; margin: 0 auto; display: flex; flex-direction: column; gap: 10px; }
+  .faq-item { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); }
+  .faq-q {
+    padding: 16px 20px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 700;
+    font-size: 14.5px;
+  }
+  .faq-q::after { content: '+'; color: var(--gold); font-size: 18px; }
+  .faq-item.open .faq-q::after { content: '−'; }
+  .faq-a { display: none; padding: 0 20px 16px; color: var(--text-muted); font-size: 13.5px; }
+  .faq-item.open .faq-a { display: block; }
+
+  /* ---------- Footer ---------- */
+  footer { border-top: 1px solid var(--border); padding: 32px 0; margin-top: 30px; }
+  .footer-row { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+  .footer-row p { color: var(--text-muted); font-size: 13px; }
+
+  @media (max-width: 768px) {
+    .grid, .steps, .preview-grid { grid-template-columns: 1fr; }
+    .hero-actions { flex-direction: column; }
+    .btn { width: 100%; justify-content: center; }
+  }
+
+  #shield {
+    position: fixed; inset: 0; background: #000; z-index: 99999;
+    display: none; align-items: center; justify-content: center; text-align: center;
+    color: #fff; padding: 24px;
+  }
+  #shield strong { color: var(--gold); font-size: 18px; display: block; margin-bottom: 8px; }
+  #shield span { color: var(--text-muted); font-size: 13.5px; }
+</style>
+</head>
+<body>
+
+<div id="shield">
+  <div>
+    <strong>تم تقييد الوصول</strong>
+    <span>يرجى إغلاق أدوات التطوير لمتابعة التصفح.</span>
+  </div>
+</div>
+
+<header>
+  <div class="container nav">
+    <div class="brand">
+      <div class="brand-dot"></div>
+      كريدي
+    </div>
+    <a href="#download" class="nav-cta">تنزيل التطبيق</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container">
+    <div class="hero-tag">نظام كامل يعمل دون إتصال بالشبكة</div>
+    <h1>إدارة ديون الزبناء <span>بدقة ومهنية</span></h1>
+    <p>حل عملي وموثوق للمحلات التجارية لإدارة السجلات المادية، متابعة المدفوعات، وإصدار الفواتير مباشرة من الهاتف.</p>
+    <div class="hero-actions">
+      <a href="#download" class="btn btn-primary">تحميل التطبيق</a>
+      <a href="#features" class="btn btn-ghost">عرض المميزات</a>
+    </div>
+
+    <div class="preview-card">
+      <div class="preview-header">
+        <div class="preview-title">نظام المتابعة والمستحقات</div>
+        <div class="preview-status">متصل محلياً</div>
+      </div>
+      <div class="preview-grid">
+        <div class="preview-box">
+          <span>الحسابات النشطة</span>
+          <strong>24 زبون</strong>
+        </div>
+        <div class="preview-box">
+          <span>إجمالي المستحقات</span>
+          <strong class="red">3,450.00 د.م.</strong>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="features">
+  <div class="container">
+    <div class="section-head">
+      <div class="section-tag">وظائف النظام</div>
+      <h2>مصمم لتلبية احتياجاتك اليومية</h2>
+      <p>أدوات مركزة تساعدك على تنظيم تعاملاتك المالية بأسلوب منظم وسريع.</p>
+    </div>
+    <div class="grid">
+      <div class="card">
+        <h3>متابعة فورية</h3>
+        <p>عرض شامل لإجمالي الديون القائمة وعدد الحسابات النشطة مع خاصية البحث السريع بالاسم أو الرقم.</p>
+      </div>
+      <div class="card">
+        <h3>سقف الدين المحدد</h3>
+        <p>إمكانية تحديد حد أقصى للائتمان لكل زبون وتلقي تنبيه عند تجاوز السقف المسموح به.</p>
+      </div>
+      <div class="card">
+        <h3>كشوفات منظمة</h3>
+        <p>إصدار تقارير وفواتير مستحقات بصيغة PDF تتضمن اسم المحل وتفاصيل العمليات كاملة.</p>
+      </div>
+      <div class="card">
+        <h3>تواصل مباشر</h3>
+        <p>إمكانية إرسال تذكير بالمبالغ المستحقة عبر تطبيق واتساب ببيانات دقيقة بنقرة واحدة.</p>
+      </div>
+      <div class="card">
+        <h3>حفظ محلي آمن</h3>
+        <p>تخزين البيانات وصور المستندات داخل الجهاز محلياً لضمان أقصى درجات الخصوصية.</p>
+      </div>
+      <div class="card">
+        <h3>استجابة فورية</h3>
+        <p>يعمل التطبيق كلياً بدون الحاجة إلى توفر خدمة الإنترنت وبسرعة معالجة عالية.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="how">
+  <div class="container">
+    <div class="section-head">
+      <div class="section-tag">خطوات الحصول على النسخة</div>
+      <h2>طريقة التفعيل والتثبيت</h2>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-index">خطوة 01</div>
+        <h3>طلب رمز التفعيل</h3>
+        <p>التواصل المباشر للحصول على الرمز الخاص المعين لجهازك.</p>
+        <a href="#" id="whatsappStepBtn" class="btn btn-ghost" style="margin-top:16px; width:100%; justify-content:center;" target="_blank" rel="noopener">
+          طلب رمز التفعيل
+        </a>
+      </div>
+      <div class="step">
+        <div class="step-index">خطوة 02</div>
+        <h3>إدخال الرمز</h3>
+        <p>كتابة رمز التفعيل في الخانة المخصصة بالأسفل للتحقق منه.</p>
+      </div>
+      <div class="step">
+        <div class="step-index">خطوة 03</div>
+        <h3>التنزيل والتثبيت</h3>
+        <p>بدء تنزيل حزمة التطبيق (APK) مباشرة بعد نجاح التفعيل.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="download">
+  <div class="container">
+    <div class="download-panel">
+      <h3>تفعيل تنزيل التطبيق</h3>
+      <p>أدخل رمز التفعيل المعتمد للانتقال إلى التحميل</p>
+
+      <div class="code-input-row">
+        <input id="codeInput" type="text" placeholder="أدخل الرمز هنا" maxlength="24" autocomplete="off" spellcheck="false">
+        <button id="redeemBtn">تفعيل</button>
+      </div>
+      <div class="status-msg" id="statusMsg"></div>
+
+      <a href="#" id="whatsappPanelBtn" class="btn btn-ghost" style="width:100%; justify-content:center; margin-bottom:18px;" target="_blank" rel="noopener">
+        طلب رمز تفعيل جديد
+      </a>
+
+      <div class="download-cta" id="downloadCta">
+        <a id="downloadLink" href="#" target="_blank" rel="noopener">تحميل ملف التطبيق (APK)</a>
+        <p class="download-note">اضغط على الزر أعلاه إذا لم يبدأ التنزيل تلقائياً.</p>
+      </div>
+
+      <div class="locked-note">كل رمز تفعيل مخصص لعملية تنزيل واحدة فقط</div>
+    </div>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="container">
+    <div class="section-head">
+      <div class="section-tag">توضيحات</div>
+      <h2>الأسئلة الشائعة</h2>
+    </div>
+    <div class="faq">
+      <div class="faq-item">
+        <div class="faq-q">كيف يتم الحصول على رمز التفعيل؟</div>
+        <div class="faq-a">يمكن طلب الرمز عبر التواصل المباشر، حيث يتم إصداره لمرة واحدة لكل ترخيص.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">هل يمكن استخدام الرمز على أكثر من جهاز؟</div>
+        <div class="faq-a">الرمز مخصص لجهاز واحد فقط ويصبح غير نافذ بعد استخدام التحميل المباشر.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">هل يتطلب التطبيق وجود اتصال بالإنترنت؟</div>
+        <div class="faq-a">لا، يعمل التطبيق دون الحاجة للاتصال بالشبكة لجميع الوظائف الأساسية وتخزين البيانات.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container footer-row">
+    <div class="brand">
+      <div class="brand-dot"></div>
+      كريدي
+    </div>
+    <p>جميع الحقوق محفوظة © <span id="year"></span></p>
+  </div>
+</footer>
+
+<script>
+/* ============================================================
+   إعدادات مشروع SUPABASE
+   استبدل المفاتيح التالية ببيانات مشروعك في Supabase
+   ============================================================ */
+const SUPABASE_URL = "https://YOUR-PROJECT-REF.supabase.co";
+const SUPABASE_ANON_KEY = "YOUR-ANON-PUBLIC-KEY";
+
+const codeInput   = document.getElementById('codeInput');
+const redeemBtn    = document.getElementById('redeemBtn');
+const statusMsg     = document.getElementById('statusMsg');
+const downloadCta   = document.getElementById('downloadCta');
+const downloadLink  = document.getElementById('downloadLink');
+
+function setStatus(text, type){
+  statusMsg.textContent = text;
+  statusMsg.className = 'status-msg' + (type ? ' ' + type : '');
+}
+
+async function redeemCode(){
+  const code = codeInput.value.trim();
+  if(!code){
+    setStatus('يرجى إدخال رمز التفعيل الصحيح', 'err');
+    return;
+  }
+
+  redeemBtn.disabled = true;
+  const originalLabel = redeemBtn.textContent;
+  redeemBtn.textContent = 'جارٍ التحقق...';
+  setStatus('', '');
+
+  try {
+    // استدعاء دالة الـ RPC الفعالة داخل Supabase
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/rpc/redeem_code`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': SUPABASE_ANON_KEY,
+        'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+      },
+      body: JSON.stringify({ input_code: code }),
+    });
+
+    if(!res.ok) throw new Error('Network response was not ok');
+    
+    const data = await res.json();
+    const result = Array.isArray(data) ? data[0] : data;
+
+    if(result && result.success === true){
+      setStatus('تم التفعيل بنجاح — سيتم التنزيل المباشر فوراً', 'ok');
+      
+      // إسناد رابط التحميل
+      downloadLink.href = result.download_url;
+      downloadCta.classList.add('show');
+      
+      // تحديث زر الواتساب بالرقم الآمن المجلوب من القاعدة
+      if(result.whatsapp_num) {
+        const waUrl = `https://wa.me/${result.whatsapp_num}?text=${encodeURIComponent('مرحباً، أرغب في الحصول على رمز تفعيل جديد لتطبيق كريدي.')}`;
+        document.querySelectorAll('#whatsappStepBtn, #whatsappPanelBtn').forEach(btn => btn.href = waUrl);
+      }
+
+      // إطلاق التحميل المباشر آلياً
+      window.location.href = result.download_url;
+
+      codeInput.disabled = true;
+      redeemBtn.style.display = 'none';
+    } else {
+      setStatus('الرمز غير صحيح أو تم استخدامه من قبل', 'err');
+    }
+  } catch(e) {
+    setStatus('تعذر الاتصال بالخادم، يرجى المحاولة لاحقاً', 'err');
+  } finally {
+    redeemBtn.disabled = false;
+    redeemBtn.textContent = originalLabel;
+  }
+}
+
+redeemBtn.addEventListener('click', redeemCode);
+codeInput.addEventListener('keydown', (e) => { if(e.key === 'Enter') redeemCode(); });
+
+document.querySelectorAll('.faq-item').forEach(item => {
+  item.querySelector('.faq-q').addEventListener('click', () => item.classList.toggle('open'));
+});
+document.getElementById('year').textContent = new Date().getFullYear();
+
+/* ============================================================
+   حماية منع فتح أدوات التطوير (Inspect Element)
+   ============================================================ */
+const shield = document.getElementById('shield');
+let shieldActive = false;
+function triggerShield(){
+  if(shieldActive) return;
+  shieldActive = true;
+  shield.style.display = 'flex';
+}
+function releaseShield(){
+  shieldActive = false;
+  shield.style.display = 'none';
+}
+setInterval(() => {
+  const widthGap  = window.outerWidth  - window.innerWidth  > 160;
+  const heightGap = window.outerHeight - window.innerHeight > 160;
+  if(widthGap || heightGap){ triggerShield(); } else { releaseShield(); }
+}, 700);
+document.addEventListener('contextmenu', (e) => e.preventDefault());
+document.addEventListener('keydown', (e) => {
+  const blocked = (e.key === 'F12') ||
+    (e.ctrlKey && e.shiftKey && ['I','J','C'].includes(e.key.toUpperCase())) ||
+    (e.ctrlKey && e.key.toUpperCase() === 'U');
+  if(blocked) e.preventDefault();
+});
+</script>
+</body>
+</html>
