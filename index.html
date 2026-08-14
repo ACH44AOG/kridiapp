@@ -468,15 +468,14 @@
 </footer>
 
 <script>
-
 const SUPABASE_URL = "https://syfvpsymoapdklddjocw.supabase.co";
 const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN5ZnZwc3ltb2FwZGtsZGRqb2N3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODYzNTk3NjEsImV4cCI6MjEwMTkzNTc2MX0.hXUYSmXeMCltnwebvZt4KCU_8SAp9tzDkoYWRb5PuIo";
 
 const codeInput   = document.getElementById('codeInput');
-const redeemBtn    = document.getElementById('redeemBtn');
-const statusMsg     = document.getElementById('statusMsg');
-const downloadCta   = document.getElementById('downloadCta');
-const downloadLink  = document.getElementById('downloadLink');
+const redeemBtn   = document.getElementById('redeemBtn');
+const statusMsg   = document.getElementById('statusMsg');
+const downloadCta = document.getElementById('downloadCta');
+const downloadLink = document.getElementById('downloadLink');
 
 function setStatus(text, type){
   statusMsg.textContent = text;
@@ -506,18 +505,21 @@ async function redeemCode(){
       body: JSON.stringify({ input_code: code }),
     });
 
-    if(!res.ok) throw new Error('Network response was not ok');
-    
-    // استقبال الـ JSON المباشر من الدالة
     const result = await res.json();
 
-    if(result && result.success === true){
+    if (!res.ok) {
+      console.error('Supabase Error details:', result);
+      setStatus(result.message || 'تعذر الاتصال بالخادم، يرجى المحاولة لاحقاً', 'err');
+      return;
+    }
+
+    if (result && result.success === true) {
       setStatus('تم التفعيل بنجاح — سيتم التنزيل المباشر فوراً', 'ok');
       
       downloadLink.href = result.download_url;
       downloadCta.classList.add('show');
       
-      if(result.whatsapp_num) {
+      if (result.whatsapp_num) {
         const waUrl = `https://wa.me/${result.whatsapp_num}?text=${encodeURIComponent('مرحباً، أرغب في الحصول على رمز تفعيل جديد لتطبيق كريدي.')}`;
         document.querySelectorAll('#whatsappStepBtn, #whatsappPanelBtn').forEach(btn => btn.href = waUrl);
       }
@@ -530,6 +532,7 @@ async function redeemCode(){
       setStatus('الرمز غير صحيح أو تم استخدامه من قبل', 'err');
     }
   } catch(e) {
+    console.error('Fetch Error:', e);
     setStatus('تعذر الاتصال بالخادم، يرجى المحاولة لاحقاً', 'err');
   } finally {
     redeemBtn.disabled = false;
@@ -545,7 +548,7 @@ document.querySelectorAll('.faq-item').forEach(item => {
 });
 document.getElementById('year').textContent = new Date().getFullYear();
 
-
+// حماية المتصفح وفحص أدوات المطورين
 const shield = document.getElementById('shield');
 let shieldActive = false;
 function triggerShield(){
