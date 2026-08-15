@@ -565,8 +565,12 @@ setInterval(() => {
   const heightGap = window.outerHeight - window.innerHeight > 160;
   if(widthGap || heightGap){ triggerShield(); } else { releaseShield(); }
 }, 700);
-document.addEventListener('contextmenu', (e) => e.preventDefault());
-document.addEventListener('keydown', (e) => {
+document.addEventListener('contextmenu', (e) => {
+  if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
+    return;
+  }
+  e.preventDefault();
+});document.addEventListener('keydown', (e) => {
   const blocked = (e.key === 'F12') ||
     (e.ctrlKey && e.shiftKey && ['I','J','C'].includes(e.key.toUpperCase())) ||
     (e.ctrlKey && e.key.toUpperCase() === 'U');
